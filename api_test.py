@@ -7,7 +7,7 @@ url = "https://leetcode.com/graphql/"
 
 query_total_number = {"query":"query problemsetQuestionList($categorySlug: String, $skip: Int, $filters: QuestionListFilterInput) {\n  problemsetQuestionList: questionList(\n    categorySlug: $categorySlug\n    skip: $skip\n    filters: $filters\n  ) {\n    total: totalNum\n      }\n}","variables":{"categorySlug":"","skip":0,"filters":{}}}
 
-def get_data_id():
+def get_total():
     response = requests.get(url=url, json=query_total_number).json()
     return int(response["data"]["problemsetQuestionList"]["total"])
 
@@ -20,6 +20,6 @@ def get_random_question(current_question_id: int):
     title = response["data"]["problemsetQuestionList"]["questions"][0]["title"]
     difficulty = response["data"]["problemsetQuestionList"]["questions"][0]["difficulty"]
     problem_description = response["data"]["problemsetQuestionList"]["questions"][0]["content"]
-    problem_description = html.unescape(problem_description)
     problem_description = re.sub("\<.*?\>", "", problem_description)
+    problem_description = html.unescape(problem_description)
     return title, difficulty, problem_description
